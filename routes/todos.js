@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { v4: uuidv4 } = require('uuid'); // Add this line
 const Todo = require('../models/Todo');
 
 // @route   GET api/todos
@@ -21,6 +22,7 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     const newTodo = new Todo({
+      _id: uuidv4(), // Set _id using uuid
       todo: req.body.todo,
       isCompleted: req.body.isCompleted || false
     });
@@ -64,7 +66,7 @@ router.delete('/:id', async (req, res) => {
     
     if (!todo) return res.status(404).json({ msg: 'Todo not found' });
     
-    await Todo.findByIdAndRemove(req.params.id);
+    await Todo.findByIdAndDelete(req.params.id); // <-- Use this instead
     
     res.json({ msg: 'Todo removed' });
   } catch (err) {

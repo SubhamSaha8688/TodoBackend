@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const TodoSchema = new mongoose.Schema({
+  _id: {
+    type: String, // <-- Add this line to use UUID as string
+    required: true
+  },
   todo: {
     type: String,
     required: true,
